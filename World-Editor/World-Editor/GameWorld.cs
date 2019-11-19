@@ -23,6 +23,9 @@ namespace World_Editor
 
         public Player player = new Player();
 
+        Texture2D title01;
+        Texture2D title02;
+
         public GameWorld()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,7 +52,7 @@ namespace World_Editor
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            
+
 
 
 
@@ -75,6 +78,8 @@ namespace World_Editor
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            title01 = Content.Load<Texture2D>("Texture/Tiles/grass_tile_3");
+            title02 = Content.Load<Texture2D>("Texture/Tiles/sand_tile");
             // TODO: use this.Content to load your game content here
         }
 
@@ -139,7 +144,7 @@ namespace World_Editor
 
 
             MakeBox();
-            
+
 
             camera.Follow(player);
 
@@ -147,9 +152,26 @@ namespace World_Editor
             CallDestroy();
 
         }
-
+        Texture2D newSprite;
         public void MakeBox()
         {
+            KeyboardState keyState = Keyboard.GetState();
+            
+            if (newSprite == null)
+            {
+                newSprite = title01;
+            }
+            // if we move, move player and play run Animate
+            if (keyState.IsKeyDown(Keys.D1))
+            {
+                newSprite = title01;
+            }
+            if (keyState.IsKeyDown(Keys.D2))
+            {
+                newSprite = title02;
+            }
+
+
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 var mousex = Mouse.GetState().Position.X;
@@ -158,24 +180,36 @@ namespace World_Editor
 
                 Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(camera.Transform));
 
-                int positonX = (int)(worldPosition.X / 10) * 10;
-                int positonY = (int)(worldPosition.Y / 10) * 10;
+                int positonX = (int)(worldPosition.X / 100) * 100;
+                int positonY = (int)(worldPosition.Y / 100) * 100;
+
 
                 if (positonX < 0)
                 {
-                    positonX -= 10;
+                    positonX -= 100;
                 }
+
                 if (positonY < 0)
                 {
-                    positonY -= 10;
+                    positonY -= 100;
+                }
+
+                if (worldPosition.X > -100f && worldPosition.X < 0.01)
+                {
+                    positonX = -100;
+                }
+                if (worldPosition.Y > -100f && worldPosition.Y < 0.01)
+                {
+                    positonY = -100;
                 }
 
 
                 GUI jamen = new GUI();
                 jamen.Transform.Position = new Vector2(positonX, positonY);
-                jamen.Transform.Scale = 10f;
-                jamen.Color = Color.Red;
+                jamen.Transform.Scale = 0.25f;
+                jamen.Color = Color.White;
                 jamen.ShowGUI = true;
+                jamen.Sprite = newSprite;
 
                 foreach (Component _component in components)
                 {
@@ -196,16 +230,27 @@ namespace World_Editor
 
                 Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(camera.Transform));
 
-                int positonX = (int)(worldPosition.X / 10) * 10;
-                int positonY = (int)(worldPosition.Y / 10) * 10;
+                int positonX = (int)(worldPosition.X / 100) * 100;
+                int positonY = (int)(worldPosition.Y / 100) * 100;
+
 
                 if (positonX < 0)
                 {
-                    positonX -= 10;
+                    positonX -= 100;
                 }
+
                 if (positonY < 0)
                 {
-                    positonY -= 10;
+                    positonY -= 100;
+                }
+
+                if (worldPosition.X > -100f && worldPosition.X < 0.01)
+                {
+                    positonX = -100;
+                }
+                if (worldPosition.Y > -100f && worldPosition.Y < 0.01)
+                {
+                    positonY = -100;
                 }
 
 
@@ -223,7 +268,7 @@ namespace World_Editor
                     }
                 }
 
-                
+
             }
         }
 

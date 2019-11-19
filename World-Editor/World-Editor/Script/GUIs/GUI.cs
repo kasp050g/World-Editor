@@ -44,7 +44,8 @@ namespace World_Editor
 
         public override void LoadContent(ContentManager content)
         {
-            sprite = content.Load<Texture2D>("Texture/Collision/CollisionTexture");
+            if(sprite == null)
+            sprite = content.Load<Texture2D>("Texture/Tiles/grass_tile_3");
             SetOrigin();
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

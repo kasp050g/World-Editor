@@ -63,20 +63,20 @@ namespace World_Editor
             KeyboardState keyState = Keyboard.GetState();
 
             // if we move, move player and play run Animate
-            if (keyState.IsKeyDown(Keys.Up))
+            if (keyState.IsKeyDown(Keys.Up) || keyState.IsKeyDown(Keys.W))
             {
                 Transform.Position += new Vector2(0, -10);
             }
-            if (keyState.IsKeyDown(Keys.Down))
+            if (keyState.IsKeyDown(Keys.Down) || keyState.IsKeyDown(Keys.S))
             {
                 Transform.Position += new Vector2(0, 10);
             }
 
-            if (keyState.IsKeyDown(Keys.Left))
+            if (keyState.IsKeyDown(Keys.Left) || keyState.IsKeyDown(Keys.A))
             {
                 Transform.Position += new Vector2(-10, 0);
             }
-            if (keyState.IsKeyDown(Keys.Right))
+            if (keyState.IsKeyDown(Keys.Right) || keyState.IsKeyDown(Keys.D))
             {
                 Transform.Position += new Vector2(10, 0);
             }

@@ -61,6 +61,8 @@
   <ItemGroup>
     <Content Include="Content\Texture\Collision\CollisionTexture.png" />
     <Content Include="Content\Texture\Collision\Enemy_Golem_Walk_Sheet.png" />
+    <Content Include="Content\Texture\Tiles\grass_tile_3.png" />
+    <Content Include="Content\Texture\Tiles\sand_tile.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
