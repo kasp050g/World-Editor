@@ -19,12 +19,11 @@ namespace World_Editor
         static private List<Component> componentsToBeInstatiate = new List<Component>();
 
         public static Vector2 ScreenSize { get; private set; }
-        public Camera camera = new Camera();
+        public static Camera camera = new Camera();
+        public static SpriteContainer spriteContainer = new SpriteContainer();
+        public static bool isMouseOverUI = false;
 
         public Player player = new Player();
-
-        Texture2D title01;
-        Texture2D title02;
 
         public GameWorld()
         {
@@ -50,23 +49,10 @@ namespace World_Editor
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
-
-
-
-
             IsMouseVisible = true;
-            GUI jamen = new GUI();
-            jamen.Transform.Scale = 100f;
-            jamen.Color = Color.Red;
-            jamen.ShowGUI = true;
-            jamen.Transform.Position = new Vector2(100, 100);
 
-
-            Instatiate(jamen);
-
-            Instatiate(player);
+            
         }
 
         /// <summary>
@@ -77,10 +63,10 @@ namespace World_Editor
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            title01 = Content.Load<Texture2D>("Texture/Tiles/grass_tile_3");
-            title02 = Content.Load<Texture2D>("Texture/Tiles/sand_tile");
+            spriteContainer.LoadContent(Content);
             // TODO: use this.Content to load your game content here
+
+            Instatiate(player);
         }
 
         #region Instatiate And Destroy
@@ -136,15 +122,12 @@ namespace World_Editor
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+           
 
             foreach (Component _component in components)
             {
                 _component.Update(gameTime);
             }
-
-
-            MakeBox();
-
 
             camera.Follow(player);
 
@@ -152,125 +135,7 @@ namespace World_Editor
             CallDestroy();
 
         }
-        Texture2D newSprite;
-        public void MakeBox()
-        {
-            KeyboardState keyState = Keyboard.GetState();
-            
-            if (newSprite == null)
-            {
-                newSprite = title01;
-            }
-            // if we move, move player and play run Animate
-            if (keyState.IsKeyDown(Keys.D1))
-            {
-                newSprite = title01;
-            }
-            if (keyState.IsKeyDown(Keys.D2))
-            {
-                newSprite = title02;
-            }
 
-
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-            {
-                var mousex = Mouse.GetState().Position.X;
-                var mousey = Mouse.GetState().Position.Y;
-                Vector2 newPosition = new Vector2(mousex, mousey);
-
-                Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(camera.Transform));
-
-                int positonX = (int)(worldPosition.X / 100) * 100;
-                int positonY = (int)(worldPosition.Y / 100) * 100;
-
-
-                if (positonX < 0)
-                {
-                    positonX -= 100;
-                }
-
-                if (positonY < 0)
-                {
-                    positonY -= 100;
-                }
-
-                if (worldPosition.X > -100f && worldPosition.X < 0.01)
-                {
-                    positonX = -100;
-                }
-                if (worldPosition.Y > -100f && worldPosition.Y < 0.01)
-                {
-                    positonY = -100;
-                }
-
-
-                GUI jamen = new GUI();
-                jamen.Transform.Position = new Vector2(positonX, positonY);
-                jamen.Transform.Scale = 0.25f;
-                jamen.Color = Color.White;
-                jamen.ShowGUI = true;
-                jamen.Sprite = newSprite;
-
-                foreach (Component _component in components)
-                {
-                    if (_component.Transform.Position == jamen.Transform.Position)
-                    {
-                        Destroy(_component);
-                    }
-                }
-
-                Instatiate(jamen);
-            }
-
-            if (Mouse.GetState().RightButton == ButtonState.Pressed)
-            {
-                var mousex = Mouse.GetState().Position.X;
-                var mousey = Mouse.GetState().Position.Y;
-                Vector2 newPosition = new Vector2(mousex, mousey);
-
-                Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(camera.Transform));
-
-                int positonX = (int)(worldPosition.X / 100) * 100;
-                int positonY = (int)(worldPosition.Y / 100) * 100;
-
-
-                if (positonX < 0)
-                {
-                    positonX -= 100;
-                }
-
-                if (positonY < 0)
-                {
-                    positonY -= 100;
-                }
-
-                if (worldPosition.X > -100f && worldPosition.X < 0.01)
-                {
-                    positonX = -100;
-                }
-                if (worldPosition.Y > -100f && worldPosition.Y < 0.01)
-                {
-                    positonY = -100;
-                }
-
-
-                GUI jamen = new GUI();
-                jamen.Transform.Position = new Vector2(positonX, positonY);
-                jamen.Transform.Scale = 10f;
-                jamen.Color = Color.Red;
-                jamen.ShowGUI = true;
-
-                foreach (Component _component in components)
-                {
-                    if (_component.Transform.Position == jamen.Transform.Position)
-                    {
-                        Destroy(_component);
-                    }
-                }
-
-
-            }
-        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -284,18 +149,18 @@ namespace World_Editor
             spriteBatch.Begin(SpriteSortMode.FrontToBack, transformMatrix: camera.Transform);
             foreach (Component _component in components)
             {
-                _component.Draw(gameTime, spriteBatch);
+                if (_component is Tile)
+                    _component.Draw(gameTime, spriteBatch);
             }
             spriteBatch.End();
 
-
-
-            //spriteBatch.Begin(SpriteSortMode.FrontToBack);
-            //foreach (Component _component in components)
-            //{
-            //    _component.Draw(gameTime, spriteBatch);
-            //}
-            //spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            foreach (Component _component in components)
+            {
+                if(_component is GUI)
+                _component.Draw(gameTime, spriteBatch);
+            }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

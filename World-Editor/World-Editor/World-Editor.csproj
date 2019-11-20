@@ -48,8 +48,13 @@
     <Compile Include="Script\Components\Component.cs" />
     <Compile Include="Script\Components\OriginPosition.cs" />
     <Compile Include="Script\Components\Transform.cs" />
+    <Compile Include="Script\Container\SpriteContainer.cs" />
     <Compile Include="Script\GUIs\GUI.cs" />
+    <Compile Include="Script\GUIs\GUI_Button.cs" />
+    <Compile Include="Script\GUIs\TileActionBarGUI.cs" />
     <Compile Include="Script\Player.cs" />
+    <Compile Include="Script\Tiles\Tile.cs" />
+    <Compile Include="Script\Tiles\TileController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
