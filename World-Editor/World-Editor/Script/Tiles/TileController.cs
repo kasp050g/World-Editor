@@ -55,55 +55,62 @@ namespace World_Editor
                 currentSprite = grass;
             }
 
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && GameWorld.isMouseOverUI == false)
+
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                var mousex = Mouse.GetState().Position.X;
-                var mousey = Mouse.GetState().Position.Y;
-                Vector2 newPosition = new Vector2(mousex, mousey);
+                CheckForGUI();
 
-                Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(GameWorld.camera.Transform));
-
-                int positonX = (int)(worldPosition.X / sizeOfTile) * sizeOfTile;
-                int positonY = (int)(worldPosition.Y / sizeOfTile) * sizeOfTile;
-
-
-                if (positonX < 0)
+                if (GameWorld.isMouseOverUI == false)
                 {
-                    positonX -= sizeOfTile;
-                }
+                    var mousex = Mouse.GetState().Position.X;
+                    var mousey = Mouse.GetState().Position.Y;
+                    Vector2 newPosition = new Vector2(mousex, mousey);
 
-                if (positonY < 0)
-                {
-                    positonY -= sizeOfTile;
-                }
+                    Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(GameWorld.camera.Transform));
 
-                if (worldPosition.X > -sizeOfTile && worldPosition.X < 0.0f)
-                {
-                    positonX = -sizeOfTile;
-                }
-                if (worldPosition.Y > -sizeOfTile && worldPosition.Y < 0.0f)
-                {
-                    positonY = -sizeOfTile;
-                }
+                    int positonX = (int)(worldPosition.X / sizeOfTile) * sizeOfTile;
+                    int positonY = (int)(worldPosition.Y / sizeOfTile) * sizeOfTile;
 
 
-                Tile newTile = new Tile();
-                newTile.Transform.Position = new Vector2(positonX, positonY);
-                newTile.Transform.Scale = (float)((float)sizeOfTile / (float)currentSprite.Height);
-                newTile.Color = Color.White;
-                newTile.Sprite = currentSprite;
-
-                foreach (Component _component in GameWorld.components)
-                {
-                    if (_component.Transform.Position == newTile.Transform.Position)
+                    if (positonX < 0)
                     {
-                        if (_component is Tile)
-                            GameWorld.Destroy(_component);
+                        positonX -= sizeOfTile;
                     }
-                }
 
-                GameWorld.Instatiate(newTile);
-            }            
+                    if (positonY < 0)
+                    {
+                        positonY -= sizeOfTile;
+                    }
+
+                    if (worldPosition.X > -sizeOfTile && worldPosition.X < 0.0f)
+                    {
+                        positonX = -sizeOfTile;
+                    }
+                    if (worldPosition.Y > -sizeOfTile && worldPosition.Y < 0.0f)
+                    {
+                        positonY = -sizeOfTile;
+                    }
+
+
+                    Tile newTile = new Tile();
+                    newTile.Transform.Position = new Vector2(positonX, positonY);
+                    float scaleNumber = (float)((float)sizeOfTile / (float)currentSprite.Height);
+                    newTile.Transform.Scale = new Vector2(scaleNumber, scaleNumber);
+                    newTile.Color = Color.White;
+                    newTile.Sprite = currentSprite;
+
+                    foreach (Component _component in GameWorld.components)
+                    {
+                        if (_component.Transform.Position == newTile.Transform.Position)
+                        {
+                            if (_component is Tile)
+                                GameWorld.Destroy(_component);
+                        }
+                    }
+
+                    GameWorld.Instatiate(newTile);
+                }
+            }
         }
 
 
@@ -111,61 +118,66 @@ namespace World_Editor
         {
             if (Mouse.GetState().RightButton == ButtonState.Pressed)
             {
-                var mousex = Mouse.GetState().Position.X;
-                var mousey = Mouse.GetState().Position.Y;
-                Vector2 newPosition = new Vector2(mousex, mousey);
+                CheckForGUI();
 
-                Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(GameWorld.camera.Transform));
-
-
-                int positonX = (int)(worldPosition.X / sizeOfTile) * sizeOfTile;
-                int positonY = (int)(worldPosition.Y / sizeOfTile) * sizeOfTile;
-
-
-                if (positonX < 0)
+                if (GameWorld.isMouseOverUI == false)
                 {
-                    positonX -= sizeOfTile;
-                }
+                    var mousex = Mouse.GetState().Position.X;
+                    var mousey = Mouse.GetState().Position.Y;
+                    Vector2 newPosition = new Vector2(mousex, mousey);
 
-                if (positonY < 0)
-                {
-                    positonY -= sizeOfTile;
-                }
+                    Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(GameWorld.camera.Transform));
 
-                if (worldPosition.X > -sizeOfTile && worldPosition.X < 0.0f)
-                {
-                    positonX = -sizeOfTile;
-                }
-                if (worldPosition.Y > -sizeOfTile && worldPosition.Y < 0.0f)
-                {
-                    positonY = -sizeOfTile;
-                }
 
-                Vector2 removeTilePosition = new Vector2(positonX, positonY);
+                    int positonX = (int)(worldPosition.X / sizeOfTile) * sizeOfTile;
+                    int positonY = (int)(worldPosition.Y / sizeOfTile) * sizeOfTile;
 
-                foreach (Component _component in GameWorld.components)
-                {
-                    if (_component.Transform.Position == removeTilePosition)
+
+                    if (positonX < 0)
                     {
-                        if(_component is Tile)
-                        GameWorld.Destroy(_component);
+                        positonX -= sizeOfTile;
+                    }
+
+                    if (positonY < 0)
+                    {
+                        positonY -= sizeOfTile;
+                    }
+
+                    if (worldPosition.X > -sizeOfTile && worldPosition.X < 0.0f)
+                    {
+                        positonX = -sizeOfTile;
+                    }
+                    if (worldPosition.Y > -sizeOfTile && worldPosition.Y < 0.0f)
+                    {
+                        positonY = -sizeOfTile;
+                    }
+
+                    Vector2 removeTilePosition = new Vector2(positonX, positonY);
+
+                    foreach (Component _component in GameWorld.components)
+                    {
+                        if (_component.Transform.Position == removeTilePosition)
+                        {
+                            if (_component is Tile)
+                                GameWorld.Destroy(_component);
+                        }
                     }
                 }
+            }
+        }
 
 
-                //Tile newTile = new Tile();
-                //newTile.Transform.Position = new Vector2(positonX, positonY);
-                //newTile.Transform.Scale = currentSprite.Height / sizeOfTile;
-                //newTile.Color = Color.White;
-                //newTile.Sprite = currentSprite;
+        public void CheckForGUI()
+        {
+            MouseState currentMouse = Mouse.GetState();
+            var mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1);
 
-                //foreach (Component _component in GameWorld.components)
-                //{
-                //    if (_component.Transform.Position == newTile.Transform.Position)
-                //    {
-                //        GameWorld.Destroy(_component);
-                //    }
-                //}
+            foreach (Component x in GameWorld.components)
+            {
+                if ((x is GUI) && mouseRectangle.Intersects((x as GUI).GUImouseBlockCollision))
+                {
+                    GameWorld.isMouseOverUI = true;
+                }
             }
         }
     }

@@ -51,6 +51,7 @@
     <Compile Include="Script\Container\SpriteContainer.cs" />
     <Compile Include="Script\GUIs\GUI.cs" />
     <Compile Include="Script\GUIs\GUI_Button.cs" />
+    <Compile Include="Script\GUIs\GUI_Image.cs" />
     <Compile Include="Script\GUIs\TileActionBarGUI.cs" />
     <Compile Include="Script\Player.cs" />
     <Compile Include="Script\Tiles\Tile.cs" />

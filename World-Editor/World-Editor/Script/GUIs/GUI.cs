@@ -15,6 +15,9 @@ namespace World_Editor
         //private Transform transform = new Transform();
         //private Texture2D sprite;
         //private float layerDepth;
+        protected Texture2D sprite;
+        protected Color defaultColor = Color.White;
+        protected  float layerDepth = 0.01f;
         #endregion
 
 
@@ -26,18 +29,19 @@ namespace World_Editor
         //public float LayerDepth { get { return layerDepth; } set { layerDepth = value; } }
         //public bool ShowGUI { get; set; }
         //public Color Color { get; set; }
+        public OriginPosition Origin { get; set; }
         #endregion
 
 
         #region Methods
         public override void Initialize()
         {
-           
+            
         }
 
         public override void LoadContent(ContentManager content)
         {
-            
+            SetOrigin();
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -52,9 +56,76 @@ namespace World_Editor
 
         }
 
+        public virtual Rectangle GUImouseBlockCollision
+        {
+            get
+            {
+                // returns a new rectangle based on the position, scale, sprite width and height.
+                return new Rectangle(
+                    (int)Transform.Position.X - (int)(Transform.Origin.X * Transform.Scale.X),
+                    (int)Transform.Position.Y - (int)(Transform.Origin.Y * Transform.Scale.Y),
+                    (int)(sprite.Width * Transform.Scale.X),
+                    (int)(sprite.Height * Transform.Scale.Y)
+                    );
+            }
+        }
 
+        public void SetOrigin()
+        {
+            // --- Top ---
 
-      
+            // top left
+            if (OriginPosition.TopLeft == Origin)
+            {
+                Transform.Origin = new Vector2(0, 0);
+            }
+            // top mid
+            if (OriginPosition.TopMid == Origin)
+            {
+                Transform.Origin = new Vector2(sprite.Width / 2, 0);
+            }
+            // top rigth
+            if (OriginPosition.TopRigth == Origin)
+            {
+                Transform.Origin = new Vector2(sprite.Width, 0);
+            }
+
+            // --- Mid ---
+
+            // mid left
+            if (OriginPosition.MidLeft == Origin)
+            {
+                Transform.Origin = new Vector2(0, sprite.Height / 2);
+            }
+            // mid 
+            if (OriginPosition.Mid == Origin)
+            {
+                Transform.Origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            }
+            // mid rigth
+            if (OriginPosition.MidRigth == Origin)
+            {
+                Transform.Origin = new Vector2(sprite.Width, sprite.Height / 2);
+            }
+
+            // --- Bottom ---
+
+            // bottom left
+            if (OriginPosition.BottomLeft == Origin)
+            {
+                Transform.Origin = new Vector2(0, sprite.Height);
+            }
+            // bottom mid
+            if (OriginPosition.BottomMid == Origin)
+            {
+                Transform.Origin = new Vector2(sprite.Width / 2, sprite.Height);
+            }
+            // bottom rigth
+            if (OriginPosition.BottomRigth == Origin)
+            {
+                Transform.Origin = new Vector2(sprite.Width, sprite.Height);
+            }
+        }
         #endregion
     }
 }

@@ -13,8 +13,8 @@ namespace World_Editor
     public class Player : Component
     {
         #region Fields
-        private TileController tileController = new TileController();
-        private TileActionBarGUI tileActionBarGUI = new TileActionBarGUI();
+        public TileController tileController = new TileController();
+        public TileActionBarGUI tileActionBarGUI = new TileActionBarGUI();
         #endregion
 
 

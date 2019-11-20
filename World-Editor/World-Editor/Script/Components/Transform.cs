@@ -14,6 +14,6 @@ namespace World_Editor
         public Vector2 Position { get; set; }
         public Vector2 Origin { get; set; }
         public float Rotation { get; set; }
-        public float Scale { get; set; }
+        public Vector2 Scale { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace World_Editor
         public static SpriteContainer spriteContainer = new SpriteContainer();
         public static bool isMouseOverUI = false;
 
-        public Player player = new Player();
+        public static Player player = new Player();
 
         public GameWorld()
         {
@@ -133,7 +133,7 @@ namespace World_Editor
 
             CallInstatiate();
             CallDestroy();
-
+            isMouseOverUI = false;
         }
 
 
