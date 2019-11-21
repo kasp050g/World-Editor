@@ -94,23 +94,23 @@ namespace World_Editor
 
         public void MakeGrass1(object sender, System.EventArgs e)
         {
-            GameWorld.player.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["grass1"];
+            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["grass1"];
         }
         public void MakeGrass3(object sender, System.EventArgs e)
         {
-            GameWorld.player.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["grass3"];
+            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["grass3"];
         }
         public void MakeSand(object sender, System.EventArgs e)
         {
-            GameWorld.player.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["sand"];
+            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["sand"];
         }
         public void MakeWater1(object sender, System.EventArgs e)
         {
-            GameWorld.player.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["water1"];
+            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["water1"];
         }
         public void MakeWater2(object sender, System.EventArgs e)
         {
-            GameWorld.player.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["water2"];
+            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["water2"];
         }
 
         public  void LoadContent(ContentManager content)

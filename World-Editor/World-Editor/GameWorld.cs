@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace World_Editor
 {
@@ -12,18 +14,21 @@ namespace World_Editor
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private SaveTileMap save = new SaveTileMap();
 
 
+        static public List<Component> guis = new List<Component>();
+        static public List<Component> tiles = new List<Component>();
         static public List<Component> components = new List<Component>();
+
         static private List<Component> componentsToBeDelete = new List<Component>();
         static private List<Component> componentsToBeInstatiate = new List<Component>();
-
         public static Vector2 ScreenSize { get; private set; }
         public static Camera camera = new Camera();
         public static SpriteContainer spriteContainer = new SpriteContainer();
         public static bool isMouseOverUI = false;
 
-        public static Player player = new Player();
+        public static Editor editor = new Editor();
 
         public GameWorld()
         {
@@ -51,8 +56,6 @@ namespace World_Editor
             // TODO: Add your initialization logic here
             base.Initialize();
             IsMouseVisible = true;
-
-            
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace World_Editor
             spriteContainer.LoadContent(Content);
             // TODO: use this.Content to load your game content here
 
-            Instatiate(player);
+            Instatiate(editor);
         }
 
         #region Instatiate And Destroy
@@ -81,8 +84,20 @@ namespace World_Editor
             {
                 componentsToBeInstatiate[i].Initialize();
                 componentsToBeInstatiate[i].LoadContent(Content);
+                if (componentsToBeInstatiate[i] is GUI)
+                {
+                    guis.Add(componentsToBeInstatiate[i]);
+                }
+                else if (componentsToBeInstatiate[i] is Tile)
+                {
+                    tiles.Add(componentsToBeInstatiate[i]);
+                }
+                else
+                {
+                    components.Add(componentsToBeInstatiate[i]);
+                }
             }
-            components.AddRange(componentsToBeInstatiate);
+
             componentsToBeInstatiate.Clear();
         }
         // Destroy
@@ -92,9 +107,21 @@ namespace World_Editor
         }
         private void CallDestroy()
         {
-            foreach (Component go in componentsToBeDelete)
+            for (int i = 0; i < componentsToBeDelete.Count; i++)
             {
-                components.Remove(go);
+                if (componentsToBeDelete[i] is GUI)
+                {
+                    guis.Remove(componentsToBeDelete[i]);
+
+                }
+                else if (componentsToBeDelete[i] is Tile)
+                {
+                    tiles.Remove(componentsToBeDelete[i]);
+                }
+                else
+                {
+                    components.Remove(componentsToBeDelete[i]);
+                }
             }
             componentsToBeDelete.Clear();
         }
@@ -120,20 +147,38 @@ namespace World_Editor
                 Exit();
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
-           
 
             foreach (Component _component in components)
             {
                 _component.Update(gameTime);
             }
+            foreach (Tile _tile in tiles)
+            {
+                _tile.Update(gameTime);
+            }
+            foreach (GUI _gui in guis)
+            {
+                _gui.Update(gameTime);
+            }
 
-            camera.Follow(player);
+            camera.Follow(editor);
 
             CallInstatiate();
             CallDestroy();
             isMouseOverUI = false;
+
+
+            /// -------
+            /// 
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+            {
+                SaveGame();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.L))
+            {
+                LoadGame();
+            }
         }
 
 
@@ -149,20 +194,33 @@ namespace World_Editor
             spriteBatch.Begin(SpriteSortMode.FrontToBack, transformMatrix: camera.Transform);
             foreach (Component _component in components)
             {
-                if (_component is Tile)
-                    _component.Draw(gameTime, spriteBatch);
+                _component.Draw(gameTime, spriteBatch);
+            }
+            foreach (Tile _tile in tiles)
+            {
+                _tile.Draw(gameTime, spriteBatch);
             }
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
-            foreach (Component _component in components)
+            foreach (GUI _gui in guis)
             {
-                if(_component is GUI)
-                _component.Draw(gameTime, spriteBatch);
+                _gui.Draw(gameTime, spriteBatch);
             }
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+
+        public void SaveGame()
+        {
+            save.SaveTile();
+        }
+
+        public void LoadGame()
+        {
+            save.LoadTile();
         }
     }
 }

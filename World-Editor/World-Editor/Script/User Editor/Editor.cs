@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace World_Editor
 {
-    public class Player : Component
+    public class Editor : Component
     {
         #region Fields
         public TileController tileController = new TileController();
@@ -24,7 +24,7 @@ namespace World_Editor
 
 
         #region Constructor
-        public Player()
+        public Editor()
         {
 
         }

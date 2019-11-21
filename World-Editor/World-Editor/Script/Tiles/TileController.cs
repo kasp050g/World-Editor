@@ -17,35 +17,18 @@ namespace World_Editor
 
         private Texture2D currentSprite;
         private Texture2D grass;
-        private Texture2D sand;
 
         public Texture2D CurrentSprite { get { return currentSprite; } set { currentSprite = value; } }
 
         public void LoadContent(ContentManager content)
         {
             grass = content.Load<Texture2D>("Texture/Tiles/grass_tile_3");
-            sand = content.Load<Texture2D>("Texture/Tiles/sand_tile");
         }
 
         public void Update()
         {
-            SelectTile();
             MakeTile();
             RemoveTile();
-        }
-
-        public void SelectTile()
-        {
-            KeyboardState keyState = Keyboard.GetState();
-
-            if (keyState.IsKeyDown(Keys.D1))
-            {
-                currentSprite = grass;
-            }
-            if (keyState.IsKeyDown(Keys.D2))
-            {
-                currentSprite = sand;
-            }
         }
 
         public void MakeTile()
@@ -54,7 +37,6 @@ namespace World_Editor
             {
                 currentSprite = grass;
             }
-
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
@@ -70,7 +52,6 @@ namespace World_Editor
 
                     int positonX = (int)(worldPosition.X / sizeOfTile) * sizeOfTile;
                     int positonY = (int)(worldPosition.Y / sizeOfTile) * sizeOfTile;
-
 
                     if (positonX < 0)
                     {
@@ -91,7 +72,6 @@ namespace World_Editor
                         positonY = -sizeOfTile;
                     }
 
-
                     Tile newTile = new Tile();
                     newTile.Transform.Position = new Vector2(positonX, positonY);
                     float scaleNumber = (float)((float)sizeOfTile / (float)currentSprite.Height);
@@ -99,12 +79,12 @@ namespace World_Editor
                     newTile.Color = Color.White;
                     newTile.Sprite = currentSprite;
 
-                    foreach (Component _component in GameWorld.components)
+                    // Remove tile if got the same position
+                    foreach (Component _tile in GameWorld.tiles)
                     {
-                        if (_component.Transform.Position == newTile.Transform.Position)
+                        if (_tile.Transform.Position == newTile.Transform.Position)
                         {
-                            if (_component is Tile)
-                                GameWorld.Destroy(_component);
+                            GameWorld.Destroy(_tile);
                         }
                     }
 
@@ -128,10 +108,8 @@ namespace World_Editor
 
                     Vector2 worldPosition = Vector2.Transform(newPosition, Matrix.Invert(GameWorld.camera.Transform));
 
-
                     int positonX = (int)(worldPosition.X / sizeOfTile) * sizeOfTile;
                     int positonY = (int)(worldPosition.Y / sizeOfTile) * sizeOfTile;
-
 
                     if (positonX < 0)
                     {
@@ -154,25 +132,24 @@ namespace World_Editor
 
                     Vector2 removeTilePosition = new Vector2(positonX, positonY);
 
-                    foreach (Component _component in GameWorld.components)
+                    // Remove tile if got the same position
+                    foreach (Component _tile in GameWorld.tiles)
                     {
-                        if (_component.Transform.Position == removeTilePosition)
+                        if (_tile.Transform.Position == removeTilePosition)
                         {
-                            if (_component is Tile)
-                                GameWorld.Destroy(_component);
+                            GameWorld.Destroy(_tile);
                         }
                     }
                 }
             }
         }
 
-
         public void CheckForGUI()
         {
             MouseState currentMouse = Mouse.GetState();
             var mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1);
 
-            foreach (Component x in GameWorld.components)
+            foreach (Component x in GameWorld.guis)
             {
                 if ((x is GUI) && mouseRectangle.Intersects((x as GUI).GUImouseBlockCollision))
                 {

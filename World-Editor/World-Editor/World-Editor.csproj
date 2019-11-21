@@ -48,12 +48,14 @@
     <Compile Include="Script\Components\Component.cs" />
     <Compile Include="Script\Components\OriginPosition.cs" />
     <Compile Include="Script\Components\Transform.cs" />
-    <Compile Include="Script\Container\SpriteContainer.cs" />
-    <Compile Include="Script\GUIs\GUI.cs" />
-    <Compile Include="Script\GUIs\GUI_Button.cs" />
-    <Compile Include="Script\GUIs\GUI_Image.cs" />
+    <Compile Include="Script\Containers\SpriteContainer.cs" />
+    <Compile Include="Script\GUIs\GUI Components\GUI.cs" />
+    <Compile Include="Script\GUIs\GUI Components\GUI_Button.cs" />
+    <Compile Include="Script\GUIs\GUI Components\GUI_Image.cs" />
     <Compile Include="Script\GUIs\TileActionBarGUI.cs" />
-    <Compile Include="Script\Player.cs" />
+    <Compile Include="Script\Save Tile\SaveLoad.cs" />
+    <Compile Include="Script\Save Tile\SaveTileMap.cs" />
+    <Compile Include="Script\User Editor\Editor.cs" />
     <Compile Include="Script\Tiles\Tile.cs" />
     <Compile Include="Script\Tiles\TileController.cs" />
   </ItemGroup>
@@ -63,6 +65,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Texture\Collision\CollisionTexture.png" />
