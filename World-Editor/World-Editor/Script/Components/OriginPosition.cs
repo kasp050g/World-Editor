@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace World_Editor
 {
-    public enum OriginPosition
+    public enum OriginPositionEnum
     {
         TopLeft, TopMid, TopRigth,
         MidLeft, Mid, MidRigth,

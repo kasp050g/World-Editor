@@ -12,7 +12,7 @@ namespace World_Editor
         public Matrix Transform { get; private set; }
 
 
-        public void Follow(Component target)
+        public void Follow(GameObject target)
         {
             var position = Matrix.CreateTranslation(
                -target.Transform.Position.X - /*(target.CollisionBox.Width / 2)*/ 100,

@@ -45,7 +45,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script\Components\Camera.cs" />
-    <Compile Include="Script\Components\Component.cs" />
+    <Compile Include="Script\Components\GameObject.cs" />
     <Compile Include="Script\Components\OriginPosition.cs" />
     <Compile Include="Script\Components\Transform.cs" />
     <Compile Include="Script\Containers\SpriteContainer.cs" />

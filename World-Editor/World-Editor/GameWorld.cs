@@ -12,23 +12,26 @@ namespace World_Editor
     /// </summary>
     public class GameWorld : Game
     {
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private SaveTileMap save = new SaveTileMap();
-
-
-        static public List<Component> guis = new List<Component>();
-        static public List<Component> tiles = new List<Component>();
-        static public List<Component> components = new List<Component>();
-
-        static private List<Component> componentsToBeDelete = new List<Component>();
-        static private List<Component> componentsToBeInstatiate = new List<Component>();
-        public static Vector2 ScreenSize { get; private set; }
+        #region Fields
+        // Public
         public static Camera camera = new Camera();
         public static SpriteContainer spriteContainer = new SpriteContainer();
         public static bool isMouseOverUI = false;
-
         public static Editor editor = new Editor();
+        public static List<GameObject> guis = new List<GameObject>();
+        public static List<GameObject> tiles = new List<GameObject>();
+        public static List<GameObject> gameObjects = new List<GameObject>();
+        // Private
+        static private List<GameObject> gameObjectsToBeDelete = new List<GameObject>();
+        static private List<GameObject> gameObjectsToBeInstatiate = new List<GameObject>();
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SaveTileMap saveTileMap = new SaveTileMap();
+        #endregion
+
+        #region Properties
+        public static Vector2 ScreenSize { get; private set; }
+        #endregion
 
         public GameWorld()
         {
@@ -74,56 +77,56 @@ namespace World_Editor
 
         #region Instatiate And Destroy
         // Instatiate
-        public static void Instatiate(Component component)
+        public static void Instatiate(GameObject component)
         {
-            componentsToBeInstatiate.Add(component);
+            gameObjectsToBeInstatiate.Add(component);
         }
         private void CallInstatiate()
         {
-            for (int i = 0; i < componentsToBeInstatiate.Count; i++)
+            for (int i = 0; i < gameObjectsToBeInstatiate.Count; i++)
             {
-                componentsToBeInstatiate[i].Initialize();
-                componentsToBeInstatiate[i].LoadContent(Content);
-                if (componentsToBeInstatiate[i] is GUI)
+                gameObjectsToBeInstatiate[i].Initialize();
+                gameObjectsToBeInstatiate[i].LoadContent(Content);
+                if (gameObjectsToBeInstatiate[i] is GUI)
                 {
-                    guis.Add(componentsToBeInstatiate[i]);
+                    guis.Add(gameObjectsToBeInstatiate[i]);
                 }
-                else if (componentsToBeInstatiate[i] is Tile)
+                else if (gameObjectsToBeInstatiate[i] is Tile)
                 {
-                    tiles.Add(componentsToBeInstatiate[i]);
+                    tiles.Add(gameObjectsToBeInstatiate[i]);
                 }
                 else
                 {
-                    components.Add(componentsToBeInstatiate[i]);
+                    gameObjects.Add(gameObjectsToBeInstatiate[i]);
                 }
             }
 
-            componentsToBeInstatiate.Clear();
+            gameObjectsToBeInstatiate.Clear();
         }
         // Destroy
-        public static void Destroy(Component gameObject)
+        public static void Destroy(GameObject component)
         {
-            componentsToBeDelete.Add(gameObject);
+            gameObjectsToBeDelete.Add(component);
         }
         private void CallDestroy()
         {
-            for (int i = 0; i < componentsToBeDelete.Count; i++)
+            for (int i = 0; i < gameObjectsToBeDelete.Count; i++)
             {
-                if (componentsToBeDelete[i] is GUI)
+                if (gameObjectsToBeDelete[i] is GUI)
                 {
-                    guis.Remove(componentsToBeDelete[i]);
+                    guis.Remove(gameObjectsToBeDelete[i]);
 
                 }
-                else if (componentsToBeDelete[i] is Tile)
+                else if (gameObjectsToBeDelete[i] is Tile)
                 {
-                    tiles.Remove(componentsToBeDelete[i]);
+                    tiles.Remove(gameObjectsToBeDelete[i]);
                 }
                 else
                 {
-                    components.Remove(componentsToBeDelete[i]);
+                    gameObjects.Remove(gameObjectsToBeDelete[i]);
                 }
             }
-            componentsToBeDelete.Clear();
+            gameObjectsToBeDelete.Clear();
         }
         #endregion
 
@@ -149,7 +152,7 @@ namespace World_Editor
             // TODO: Add your update logic here
             base.Update(gameTime);
 
-            foreach (Component _component in components)
+            foreach (GameObject _component in gameObjects)
             {
                 _component.Update(gameTime);
             }
@@ -192,20 +195,20 @@ namespace World_Editor
 
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.FrontToBack, transformMatrix: camera.Transform);
-            foreach (Component _component in components)
+            foreach (GameObject _component in gameObjects)
             {
-                _component.Draw(gameTime, spriteBatch);
+                _component.Draw( spriteBatch);
             }
             foreach (Tile _tile in tiles)
             {
-                _tile.Draw(gameTime, spriteBatch);
+                _tile.Draw( spriteBatch);
             }
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack);
             foreach (GUI _gui in guis)
             {
-                _gui.Draw(gameTime, spriteBatch);
+                _gui.Draw( spriteBatch);
             }
             spriteBatch.End();
 
@@ -215,12 +218,12 @@ namespace World_Editor
 
         public void SaveGame()
         {
-            save.SaveTile();
+            saveTileMap.SaveTile();
         }
 
         public void LoadGame()
         {
-            save.LoadTile();
+            saveTileMap.LoadTile(Content);
         }
     }
 }

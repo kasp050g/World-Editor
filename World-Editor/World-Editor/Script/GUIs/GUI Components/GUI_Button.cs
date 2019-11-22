@@ -13,6 +13,8 @@ namespace World_Editor
     public class GUI_Button : GUI
     {
         #region Fields
+        public event EventHandler Click;
+
         private MouseState currentMouse;
         private MouseState previousMouse;
         private bool isHovering;
@@ -24,17 +26,13 @@ namespace World_Editor
         #endregion
 
         #region Properties
-        public float LayerDepth { get { return layerDepth; } set { layerDepth = value; } }
-        public event EventHandler Click;
         public bool Clicked { get; private set; }
         public string Text { get; set; }
 
         public SpriteFont Font { get { return font; } set { font = value; } }
-        public Texture2D Sprite { get{ return sprite; } set { sprite = value; } }
-
+        public Vector2 Position { get { return transform.Position; } set { transform.Position = value; } }
         public Vector2 FontScale { get; set; }
         public Vector2 ButtonScale { get; set; }
-        public Vector2 Position { get { return Transform.Position; } set { Transform.Position = value; } }
         public Rectangle Rectangle
         {
             get
@@ -67,12 +65,12 @@ namespace World_Editor
             base.LoadContent(content);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime, spriteBatch);
+            base.Draw(spriteBatch);
             if (ShowGUI == true)
             {
-                var colour = defaultColor;
+                var colour = Color;
 
                 if (isHovering)
                 {
@@ -93,7 +91,6 @@ namespace World_Editor
 
         public override void Update(GameTime gameTime)
         {
-
             base.Update(gameTime);
             if (ShowGUI == true)
             {
@@ -102,29 +99,20 @@ namespace World_Editor
 
                 var mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1);
 
-
                 isHovering = false;
 
                 if (mouseRectangle.Intersects(Rectangle))
                 {
-                    isHovering = true;
-                    
+                    isHovering = true;                    
 
                     if (currentMouse.LeftButton == ButtonState.Released && previousMouse.LeftButton == ButtonState.Pressed)
                     {
                         
                         Click?.Invoke(this, new EventArgs());
-                    }
-
-                    
-                }
-                
+                    }                    
+                }                
             }
         }
-
-
-
-
         #endregion
     }
 }

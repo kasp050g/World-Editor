@@ -13,17 +13,14 @@ namespace World_Editor
     public class GUI_Image : GUI
     {
         #region Fields
-
         #endregion
-
-
+               
 
         #region Properties
-        public Texture2D Sprite { get { return sprite; } set { sprite = value; } }
-        public float LayerDepth { get { return layerDepth; } set { layerDepth = value; } }
+
         public Vector2 Position { get { return Transform.Position; } set { Transform.Position = value; } }
         public Vector2 Scale { get { return Transform.Scale; } set { Transform.Scale = value; } }
-        public Color color = Color.White;
+
         public Rectangle Rectangle
         {
             get
@@ -39,22 +36,26 @@ namespace World_Editor
 
         #endregion
 
-        #region Methods
+        #region Constructor
         public GUI_Image()
         {
-            
+
         }
-        public GUI_Image(Texture2D sprite)
+        #endregion
+
+
+        #region Methods
+
+        public override void Initialize()
         {
-            this.sprite = sprite;
-        }
-        public GUI_Image(Texture2D sprite, Color defaultColor)
-        {
-            this.sprite = sprite;
-            this.defaultColor = defaultColor;
+            base.Initialize();
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+        }
+        public override void Draw( SpriteBatch spriteBatch)
         {
             if (ShowGUI == true)
             {

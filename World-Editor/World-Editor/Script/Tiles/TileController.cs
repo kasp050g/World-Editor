@@ -14,15 +14,13 @@ namespace World_Editor
     public class TileController
     {
         private int sizeOfTile = 100;
-
         private Texture2D currentSprite;
-        private Texture2D grass;
 
         public Texture2D CurrentSprite { get { return currentSprite; } set { currentSprite = value; } }
 
         public void LoadContent(ContentManager content)
         {
-            grass = content.Load<Texture2D>("Texture/Tiles/grass_tile_3");
+            currentSprite = content.Load<Texture2D>("Texture/Tiles/grass_tile_3");
         }
 
         public void Update()
@@ -30,14 +28,21 @@ namespace World_Editor
             MakeTile();
             RemoveTile();
         }
+        public void CheckForGUI()
+        {
+            MouseState currentMouse = Mouse.GetState();
+            var mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1);
 
+            foreach (GameObject x in GameWorld.guis)
+            {
+                if ((x is GUI) && mouseRectangle.Intersects((x as GUI).GUImouseBlockCollision))
+                {
+                    GameWorld.isMouseOverUI = true;
+                }
+            }
+        }
         public void MakeTile()
         {
-            if (currentSprite == null)
-            {
-                currentSprite = grass;
-            }
-
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 CheckForGUI();
@@ -80,7 +85,7 @@ namespace World_Editor
                     newTile.Sprite = currentSprite;
 
                     // Remove tile if got the same position
-                    foreach (Component _tile in GameWorld.tiles)
+                    foreach (GameObject _tile in GameWorld.tiles)
                     {
                         if (_tile.Transform.Position == newTile.Transform.Position)
                         {
@@ -133,7 +138,7 @@ namespace World_Editor
                     Vector2 removeTilePosition = new Vector2(positonX, positonY);
 
                     // Remove tile if got the same position
-                    foreach (Component _tile in GameWorld.tiles)
+                    foreach (GameObject _tile in GameWorld.tiles)
                     {
                         if (_tile.Transform.Position == removeTilePosition)
                         {
@@ -144,18 +149,6 @@ namespace World_Editor
             }
         }
 
-        public void CheckForGUI()
-        {
-            MouseState currentMouse = Mouse.GetState();
-            var mouseRectangle = new Rectangle(currentMouse.X, currentMouse.Y, 1, 1);
 
-            foreach (Component x in GameWorld.guis)
-            {
-                if ((x is GUI) && mouseRectangle.Intersects((x as GUI).GUImouseBlockCollision))
-                {
-                    GameWorld.isMouseOverUI = true;
-                }
-            }
-        }
     }
 }

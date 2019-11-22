@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace World_Editor
 {
-    public class Editor : Component
+    public class Editor : GameObject
     {
         #region Fields
         public TileController tileController = new TileController();
@@ -41,7 +41,7 @@ namespace World_Editor
         {
             tileController.LoadContent(content);
         }
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw( SpriteBatch spriteBatch)
         {
 
         }
