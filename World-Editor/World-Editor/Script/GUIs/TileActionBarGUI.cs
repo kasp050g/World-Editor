@@ -16,8 +16,115 @@ namespace World_Editor
         private GUI_Button button;
         //public GUI_Button button_sand;
 
+        public List<string> tileButtons = new List<string>();
+        public List<string> decorationButtons = new List<string>();
+        public List<string> enemySpawnButtons = new List<string>();
+
+        private List<GameObject> tileButtonsGO = new List<GameObject>();
+        private List<GameObject> decorationButtonsGO = new List<GameObject>();
+        private List<GameObject> enemySpawnButtonsGO = new List<GameObject>();
+
+        private GUI_Button tileButton;
+        private GUI_Button decorationButton;
+        private GUI_Button enemySpawnButton;
 
         public void Initialize()
+        {
+            tileButtons.Add("grass1");
+            tileButtons.Add("grass3");
+            tileButtons.Add("sand");
+            tileButtons.Add("water1");
+            tileButtons.Add("water2");
+
+            LowerBar();
+            TileBar();
+            PickTypeButton();
+        }
+
+        public void PickTypeButton()
+        {
+            // Tile button
+            button = new GUI_Button()
+            {
+                Sprite = GameWorld.spriteContainer.sprites["CollisionTexture"],
+                ShowGUI = true,
+                ButtonScale = new Vector2(150.0f, 40.0f),
+                Position = new Vector2(lowerBar.Transform.Position.X + 0, lowerBar.Transform.Position.Y - 190),
+                LayerDepth = 0.02f,
+                Font = GameWorld.spriteContainer.normalFont,
+                Text = "Tile",
+                FontScale = new Vector2(0.5f, 0.5f)
+                
+            };
+            button.Click += ShowTileButtons;
+            button.Color = Color.Yellow;
+            tileButton = button;
+            GameWorld.Instatiate(button);
+
+            // Description button
+            button = new GUI_Button()
+            {
+                Sprite = GameWorld.spriteContainer.sprites["CollisionTexture"],
+                ShowGUI = true,
+                ButtonScale = new Vector2(150.0f, 40.0f),
+                Position = new Vector2(lowerBar.Transform.Position.X + 150, lowerBar.Transform.Position.Y - 190),
+                LayerDepth = 0.02f,
+                Font = GameWorld.spriteContainer.normalFont,
+                Text = "Description",
+                FontScale = new Vector2(0.5f, 0.5f)
+
+            };
+            button.Click += ShowDecorationButtons;
+            button.Color = Color.LightGray;
+            decorationButton = button;
+            GameWorld.Instatiate(button);
+
+            // Description button
+            button = new GUI_Button()
+            {
+                Sprite = GameWorld.spriteContainer.sprites["CollisionTexture"],
+                ShowGUI = true,
+                ButtonScale = new Vector2(150.0f, 40.0f),
+                Position = new Vector2(lowerBar.Transform.Position.X + 300, lowerBar.Transform.Position.Y - 190),
+                LayerDepth = 0.02f,
+                Font = GameWorld.spriteContainer.normalFont,
+                Text = "Enemy Spawn",
+                FontScale = new Vector2(0.5f, 0.5f)
+
+            };
+            button.Click += EnemySpawnButtons;
+            button.Color = Color.LightGray;
+            enemySpawnButton = button;
+            GameWorld.Instatiate(button);
+        }
+
+        public void LowerBar()
+        {
+            lowerBar = new GUI_Image()
+            {
+                Sprite = GameWorld.spriteContainer.sprites["CollisionTexture"],
+                ShowGUI = true,
+                Scale = new Vector2(GameWorld.ScreenSize.X, 1),
+                Position = new Vector2(0, GameWorld.ScreenSize.Y - 150),
+                OriginEnum = OriginPositionEnum.BottomMid,
+                LayerDepth = 0.01f,
+                Color = Color.Black,
+            };
+            GameWorld.Instatiate(lowerBar);
+            lowerBar = new GUI_Image()
+            {
+                Sprite = GameWorld.spriteContainer.sprites["CollisionTexture"],
+                ShowGUI = true,
+                Scale = new Vector2(GameWorld.ScreenSize.X, 150),
+                Position = new Vector2(0, GameWorld.ScreenSize.Y),
+                OriginEnum = OriginPositionEnum.BottomMid,
+                LayerDepth = 0.01f,
+                Color = Color.LightGray,
+            };
+            GameWorld.Instatiate(lowerBar);
+        }
+
+        public void TileBar()
         {
             lowerBar = new GUI_Image()
             {
@@ -27,90 +134,81 @@ namespace World_Editor
                 Position = new Vector2(0, GameWorld.ScreenSize.Y),
                 OriginEnum = OriginPositionEnum.BottomMid,
                 LayerDepth = 0.01f,
-                Color = Color.LightSlateGray
+                Color = Color.Transparent
             };
             GameWorld.Instatiate(lowerBar);
 
-            button = new GUI_Button()
+
+            for (int i = 0; i < tileButtons.Count; i++)
             {
-                Sprite = GameWorld.spriteContainer.tileSprite["grass1"],
-                ShowGUI = true,
-                ButtonScale = new Vector2(0.25f, 0.25f),
-                Position = new Vector2(lowerBar.Transform.Position.X + 25, lowerBar.Transform.Position.Y - 125),
-                LayerDepth = 0.02f
-
-            };
-            button.Click += MakeGrass1;
-            GameWorld.Instatiate(button);
-
-            button = new GUI_Button()
-            {
-                Sprite = GameWorld.spriteContainer.tileSprite["grass3"],
-                ShowGUI = true,
-                ButtonScale = new Vector2(0.25f, 0.25f),
-                Position = new Vector2(lowerBar.Transform.Position.X + 150, lowerBar.Transform.Position.Y - 125),
-                LayerDepth = 0.02f
-
-            };
-            button.Click += MakeGrass3;
-            GameWorld.Instatiate(button);
-
-            button = new GUI_Button()
-            {
-                Sprite = GameWorld.spriteContainer.tileSprite["sand"],
-                ShowGUI = true,
-                ButtonScale = new Vector2(0.25f, 0.25f),
-                Position = new Vector2(lowerBar.Transform.Position.X + 275, lowerBar.Transform.Position.Y - 125),
-                LayerDepth = 0.02f
-
-            };
-            button.Click += MakeSand;
-            GameWorld.Instatiate(button);
-
-            button = new GUI_Button()
-            {
-                Sprite = GameWorld.spriteContainer.tileSprite["water1"],
-                ShowGUI = true,
-                ButtonScale = new Vector2(0.25f, 0.25f),
-                Position = new Vector2(lowerBar.Transform.Position.X + 400, lowerBar.Transform.Position.Y - 125),
-                LayerDepth = 0.02f
-
-            };
-            button.Click += MakeWater1;
-            GameWorld.Instatiate(button);
-
-            button = new GUI_Button()
-            {
-                Sprite = GameWorld.spriteContainer.tileSprite["water2"],
-                ShowGUI = true,
-                ButtonScale = new Vector2(0.25f, 0.25f),
-                Position = new Vector2(lowerBar.Transform.Position.X + 525, lowerBar.Transform.Position.Y - 125),
-                LayerDepth = 0.02f
-
-            };
-            button.Click += MakeWater2;
-            GameWorld.Instatiate(button);
+                button = new GUI_Button()
+                {
+                    Sprite = GameWorld.spriteContainer.tileSprite[tileButtons[i]],
+                    ShowGUI = true,
+                    ButtonScale = new Vector2(0.25f, 0.25f),
+                    Position = new Vector2(lowerBar.Transform.Position.X + 25 +(i * 125), lowerBar.Transform.Position.Y - 125),
+                    LayerDepth = 0.02f,
+                    spriteName  = this.tileButtons[i],
+                    
+                };
+                button.Click += CallTileSprite;
+                tileButtonsGO.Add(button);
+                GameWorld.Instatiate(button);
+            }
         }
 
-        private void MakeGrass1(object sender, System.EventArgs e)
+        private void CallTileSprite(object sender, System.EventArgs e)
         {
-            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["grass1"];
+            var loadSpriteName = ((SeleteTileEvent)e).spriteName;
+            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite[loadSpriteName];
         }
-        private void MakeGrass3(object sender, System.EventArgs e)
+
+        public void HideAll()
         {
-            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["grass3"];
+            foreach (var x in tileButtonsGO)
+            {
+                (x as GUI).ShowGUI = false;
+            }
+            foreach (var x in decorationButtonsGO)
+            {
+                (x as GUI).ShowGUI = false;
+            }
+            foreach (var x in enemySpawnButtonsGO)
+            {
+                (x as GUI).ShowGUI = false;
+            }
+            tileButton.Color = Color.LightGray;
+            decorationButton.Color = Color.LightGray;
+            enemySpawnButton.Color = Color.LightGray;
         }
-        private void MakeSand(object sender, System.EventArgs e)
+
+        public void ShowTileButtons(object sender, System.EventArgs e)
         {
-            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["sand"];
+            HideAll();
+
+            this.ShowList(tileButtonsGO.Cast<GUI>().ToList(), this.tileButton);
+
         }
-        private void MakeWater1(object sender, System.EventArgs e)
+
+        public void ShowDecorationButtons(object sender, System.EventArgs e)
         {
-            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["water1"];
+            HideAll();
+            this.ShowList(decorationButtonsGO.Cast<GUI>().ToList(), this.decorationButton);
         }
-        private void MakeWater2(object sender, System.EventArgs e)
+
+        public void EnemySpawnButtons(object sender, System.EventArgs e)
         {
-            GameWorld.editor.tileController.CurrentSprite = GameWorld.spriteContainer.tileSprite["water2"];
+            HideAll();
+            this.ShowList(enemySpawnButtonsGO.Cast<GUI>().ToList() , this.enemySpawnButton) ;
+        }
+
+        public void ShowList(List<GUI> gos, GUI_Button button)
+        {
+            foreach (var go in gos)
+            {
+                go.ShowGUI = true;
+            }
+            button.Color = Color.Yellow;
         }
     }
 }

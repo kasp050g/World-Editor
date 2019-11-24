@@ -10,13 +10,14 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace World_Editor
 {
     public class SpriteContainer
     {
         public Dictionary<string, Texture2D> tileSprite = new Dictionary<string, Texture2D>();
         public Dictionary<string, Texture2D> sprites = new Dictionary<string, Texture2D>();
-
+        public SpriteFont normalFont;
 
         public void LoadContent(ContentManager content)
         {
@@ -27,7 +28,10 @@ namespace World_Editor
             AddTileSprite(content.Load<Texture2D>("Texture/Tiles/21"), "water1");
             AddTileSprite(content.Load<Texture2D>("Texture/Tiles/20"), "water2");
 
-            AddSprites(content.Load<Texture2D>("Texture/Collision/CollisionTexture"), "CollisionTexture");  
+            AddSprites(content.Load<Texture2D>("Texture/Collision/CollisionTexture"), "CollisionTexture");
+
+
+            normalFont = content.Load<SpriteFont>("Font/NormalFont");
         }
 
         private void AddTileSprite(Texture2D texture2D, string name)

@@ -13,10 +13,16 @@ namespace World_Editor
 {
     public class TileController
     {
-        private int sizeOfTile = 100;
+        private int sizeOfTile;
         private Texture2D currentSprite;
 
         public Texture2D CurrentSprite { get { return currentSprite; } set { currentSprite = value; } }
+
+
+        public TileController(int sizeOfTile)
+        {
+            this.sizeOfTile = sizeOfTile;
+        }
 
         public void LoadContent(ContentManager content)
         {
@@ -28,6 +34,7 @@ namespace World_Editor
             MakeTile();
             RemoveTile();
         }
+
         public void CheckForGUI()
         {
             MouseState currentMouse = Mouse.GetState();
@@ -83,6 +90,11 @@ namespace World_Editor
                     newTile.Transform.Scale = new Vector2(scaleNumber, scaleNumber);
                     newTile.Color = Color.White;
                     newTile.Sprite = currentSprite;
+
+                    if(newTile.Sprite == GameWorld.spriteContainer.tileSprite["water1"])
+                    {
+                        newTile.isWaterTile = true;
+                    }
 
                     // Remove tile if got the same position
                     foreach (GameObject _tile in GameWorld.tiles)

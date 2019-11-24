@@ -48,7 +48,10 @@
     <Compile Include="Script\Components\GameObject.cs" />
     <Compile Include="Script\Components\OriginPosition.cs" />
     <Compile Include="Script\Components\Transform.cs" />
+    <Compile Include="Script\Components\WaterTile.cs" />
     <Compile Include="Script\Containers\SpriteContainer.cs" />
+    <Compile Include="Script\GUIs\ActionBarGUI\ActionBarGUIEnum.cs" />
+    <Compile Include="Script\GUIs\GUI Components\SeleteTileEvent.cs" />
     <Compile Include="Script\GUIs\GUI Components\GUI.cs" />
     <Compile Include="Script\GUIs\GUI Components\GUI_Button.cs" />
     <Compile Include="Script\GUIs\GUI Components\GUI_Image.cs" />
@@ -77,6 +80,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\Font\NormalFont.spritefont" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

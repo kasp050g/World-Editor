@@ -13,14 +13,17 @@ namespace World_Editor
     public class Editor : GameObject
     {
         #region Fields
-        public TileController tileController = new TileController();
+        private static int sizeOfTile = 100;
+        public TileController tileController = new TileController(sizeOfTile);
         public TileActionBarGUI tileActionBarGUI = new TileActionBarGUI();
         #endregion
+
 
 
         #region Properties
 
         #endregion
+
 
 
         #region Constructor
@@ -29,6 +32,7 @@ namespace World_Editor
 
         }
         #endregion
+
 
 
         #region Methods

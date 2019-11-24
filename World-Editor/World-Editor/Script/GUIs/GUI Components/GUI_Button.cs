@@ -12,13 +12,14 @@ namespace World_Editor
 {
     public class GUI_Button : GUI
     {
+        
         #region Fields
         public event EventHandler Click;
+        public Action<string> _Click;
 
         private MouseState currentMouse;
         private MouseState previousMouse;
         private bool isHovering;
-
         private SpriteFont font;
 
         private Color hoverColor = Color.Gray;
@@ -28,7 +29,7 @@ namespace World_Editor
         #region Properties
         public bool Clicked { get; private set; }
         public string Text { get; set; }
-
+        public string spriteName  { get; set; }
         public SpriteFont Font { get { return font; } set { font = value; } }
         public Vector2 Position { get { return transform.Position; } set { transform.Position = value; } }
         public Vector2 FontScale { get; set; }
@@ -84,7 +85,7 @@ namespace World_Editor
                     var x = (Rectangle.X + (Rectangle.Width / 2)) - (font.MeasureString(Text).X / 2) * FontScale.X;
                     var y = (Rectangle.Y + (Rectangle.Height / 2)) - (font.MeasureString(Text).Y / 2) * FontScale.Y;
 
-                    spriteBatch.DrawString(font, Text, new Vector2(x, y), fontColor, 0f, Vector2.Zero, FontScale, SpriteEffects.None, layerDepth);
+                    spriteBatch.DrawString(font, Text, new Vector2(x, y), fontColor, 0f, Vector2.Zero, FontScale, SpriteEffects.None, layerDepth + 0.05f);
                 }
             }
         }
@@ -106,9 +107,8 @@ namespace World_Editor
                     isHovering = true;                    
 
                     if (currentMouse.LeftButton == ButtonState.Released && previousMouse.LeftButton == ButtonState.Pressed)
-                    {
-                        
-                        Click?.Invoke(this, new EventArgs());
+                    {                        
+                        Click?.Invoke(this, new SeleteTileEvent() { spriteName = this.spriteName });
                     }                    
                 }                
             }

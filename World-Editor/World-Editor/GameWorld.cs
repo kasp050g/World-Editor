@@ -171,17 +171,7 @@ namespace World_Editor
             CallDestroy();
             isMouseOverUI = false;
 
-
-            /// -------
-            /// 
-            if (Keyboard.GetState().IsKeyDown(Keys.K))
-            {
-                SaveGame();
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.L))
-            {
-                LoadGame();
-            }
+            saveTileMap.SaveAndLoad(Content);
         }
 
 
@@ -213,17 +203,6 @@ namespace World_Editor
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-
-        public void SaveGame()
-        {
-            saveTileMap.SaveTile();
-        }
-
-        public void LoadGame()
-        {
-            saveTileMap.LoadTile(Content);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace World_Editor
     public class Tile : GameObject
     {
         #region Fields
-
+        public bool isWaterTile;
         #endregion
 
 
