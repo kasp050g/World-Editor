@@ -58,9 +58,12 @@
     <Compile Include="Script\GUIs\TileActionBarGUI.cs" />
     <Compile Include="Script\Save Tile\SaveLoad.cs" />
     <Compile Include="Script\Save Tile\SaveTileMap.cs" />
+    <Compile Include="Script\Tiles\Description.cs" />
+    <Compile Include="Script\Tiles\EnemySpawn.cs" />
+    <Compile Include="Script\Tiles\SelectedTileType.cs" />
     <Compile Include="Script\User Editor\Editor.cs" />
     <Compile Include="Script\Tiles\Tile.cs" />
-    <Compile Include="Script\Tiles\TileController.cs" />
+    <Compile Include="Script\Tiles\EditorController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -73,6 +76,10 @@
   <ItemGroup>
     <Content Include="Content\Texture\Collision\CollisionTexture.png" />
     <Content Include="Content\Texture\Collision\Enemy_Golem_Walk_Sheet.png" />
+    <Content Include="Content\Texture\Description\chest_1.png" />
+    <Content Include="Content\Texture\Description\tree\AppleTree.png" />
+    <Content Include="Content\Texture\Description\tree\tree_1.png" />
+    <Content Include="Content\Texture\Description\tree\tree_2.png" />
     <Content Include="Content\Texture\Tiles\grass_tile_3.png" />
     <Content Include="Content\Texture\Tiles\sand_tile.png" />
     <Content Include="Icon.ico" />

@@ -11,15 +11,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace World_Editor
 {
-    public class TileController
+    public class EditorController
     {
         private int sizeOfTile;
         private Texture2D currentSprite;
 
         public Texture2D CurrentSprite { get { return currentSprite; } set { currentSprite = value; } }
+        public SelectedTileType CurrentSelectedTileType { get; set; }
 
-
-        public TileController(int sizeOfTile)
+        public EditorController(int sizeOfTile)
         {
             this.sizeOfTile = sizeOfTile;
         }
@@ -84,32 +84,59 @@ namespace World_Editor
                         positonY = -sizeOfTile;
                     }
 
-                    Tile newTile = new Tile();
-                    newTile.Transform.Position = new Vector2(positonX, positonY);
-                    float scaleNumber = (float)((float)sizeOfTile / (float)currentSprite.Height);
-                    newTile.Transform.Scale = new Vector2(scaleNumber, scaleNumber);
-                    newTile.Color = Color.White;
-                    newTile.Sprite = currentSprite;
-
-                    if(newTile.Sprite == GameWorld.spriteContainer.tileSprite["water1"])
-                    {
-                        newTile.isWaterTile = true;
-                    }
-
-                    // Remove tile if got the same position
-                    foreach (GameObject _tile in GameWorld.tiles)
-                    {
-                        if (_tile.Transform.Position == newTile.Transform.Position)
-                        {
-                            GameWorld.Destroy(_tile);
-                        }
-                    }
-
-                    GameWorld.Instatiate(newTile);
+                    MakeNewTileType(CurrentSelectedTileType, new Vector2(positonX, positonY));
                 }
             }
         }
 
+        public void MakeNewTileType(SelectedTileType _selectedTileType, Vector2 _position)
+        {
+            if(_selectedTileType == SelectedTileType.Tile)
+            {
+                Tile newTile = new Tile();
+                newTile.Transform.Position = new Vector2(_position.X, _position.Y);
+                float scaleNumber = (float)((float)sizeOfTile / (float)currentSprite.Height);
+                newTile.Transform.Scale = new Vector2(scaleNumber, scaleNumber);
+                newTile.Color = Color.White;
+                newTile.Sprite = currentSprite;
+                newTile.LayerDepth = 0.001f;
+
+                // Remove tile if got the same position
+                foreach (GameObject _tile in GameWorld.tiles)
+                {
+                    if (_tile.Transform.Position == newTile.Transform.Position)
+                    {
+                        GameWorld.Destroy(_tile);
+                    }
+                }
+
+                GameWorld.Instatiate(newTile);
+            }
+            else if(_selectedTileType == SelectedTileType.Decoration)
+            {
+                Description newDescriptions = new Description();
+                newDescriptions.Transform.Position = new Vector2(_position.X, _position.Y);
+                float scaleNumber = (float)((float)sizeOfTile / (float)currentSprite.Height);
+                newDescriptions.Transform.Scale = new Vector2(scaleNumber * 1.5f, scaleNumber * 1.5f);
+                newDescriptions.Color = Color.White;
+                newDescriptions.Sprite = currentSprite;
+                newDescriptions.LayerDepth = 0.002f + (((_position.Y/100) + 10000) / 1000000);
+                newDescriptions.OriginEnum = OriginPositionEnum.MidLeft;
+                newDescriptions.SetOrigin();
+
+
+                // Remove tile if got the same position
+                foreach (GameObject _descriptions in GameWorld.descriptions)
+                {
+                    if (_descriptions.Transform.Position == newDescriptions.Transform.Position)
+                    {
+                        GameWorld.Destroy(_descriptions);
+                    }
+                }
+
+                GameWorld.Instatiate(newDescriptions);
+            }
+        }
 
         public void RemoveTile()
         {
@@ -149,18 +176,35 @@ namespace World_Editor
 
                     Vector2 removeTilePosition = new Vector2(positonX, positonY);
 
-                    // Remove tile if got the same position
-                    foreach (GameObject _tile in GameWorld.tiles)
-                    {
-                        if (_tile.Transform.Position == removeTilePosition)
-                        {
-                            GameWorld.Destroy(_tile);
-                        }
-                    }
+                    RemoveOldTile(CurrentSelectedTileType, removeTilePosition);
                 }
             }
         }
 
-
+        public void RemoveOldTile(SelectedTileType _selectedTileType, Vector2 _position)
+        {
+            if (_selectedTileType == SelectedTileType.Tile)
+            {
+                // Remove tile if got the same position
+                foreach (GameObject _tile in GameWorld.tiles)
+                {
+                    if (_tile.Transform.Position == _position)
+                    {
+                        GameWorld.Destroy(_tile);
+                    }
+                }
+            }
+            else if (_selectedTileType == SelectedTileType.Decoration)
+            {
+                // Remove tile if got the same position
+                foreach (GameObject _descriptions in GameWorld.descriptions)
+                {
+                    if (_descriptions.Transform.Position == _position)
+                    {
+                        GameWorld.Destroy(_descriptions);
+                    }
+                }
+            }
+        }
     }
 }

@@ -15,31 +15,39 @@ namespace World_Editor
 {
     public class SpriteContainer
     {
-        public Dictionary<string, Texture2D> tileSprite = new Dictionary<string, Texture2D>();
         public Dictionary<string, Texture2D> sprites = new Dictionary<string, Texture2D>();
         public SpriteFont normalFont;
 
         public void LoadContent(ContentManager content)
         {
-            AddTileSprite(content.Load<Texture2D>("Texture/Tiles/grass_tile_1"), "grass1");
-            AddTileSprite(content.Load<Texture2D>("Texture/Tiles/grass_tile_3"), "grass3");  
-            AddTileSprite(content.Load<Texture2D>("Texture/Tiles/sand_tile"), "sand");
+            // Tile's
+            AddSprite(content.Load<Texture2D>("Texture/Tiles/grass_tile_1"), "grass1");
+            AddSprite(content.Load<Texture2D>("Texture/Tiles/grass_tile_3"), "grass3");
+            AddSprite(content.Load<Texture2D>("Texture/Tiles/sand_tile"), "sand");
+            AddSprite(content.Load<Texture2D>("Texture/Tiles/21"), "water1");
+            AddSprite(content.Load<Texture2D>("Texture/Tiles/20"), "water2");
 
-            AddTileSprite(content.Load<Texture2D>("Texture/Tiles/21"), "water1");
-            AddTileSprite(content.Load<Texture2D>("Texture/Tiles/20"), "water2");
+            // Description's 
+            //  ---Tree's
+            AddSprite(content.Load<Texture2D>("Texture/Description/tree/AppleTree"), "AppleTree");
+            AddSprite(content.Load<Texture2D>("Texture/Description/tree/tree_1"), "tree_1");
+            AddSprite(content.Load<Texture2D>("Texture/Description/tree/tree_2"), "tree_2");
+            //  ---Stuff
+            AddSprite(content.Load<Texture2D>("Texture/Description/chest_1"), "chest_1");
 
-            AddSprites(content.Load<Texture2D>("Texture/Collision/CollisionTexture"), "CollisionTexture");
+            // Enemy Spawn's
+            AddSprite(content.Load<Texture2D>("Texture/Tiles/20"), "asdasdasd");
 
 
+
+            // Game Stuff
+            AddSprite(content.Load<Texture2D>("Texture/Collision/CollisionTexture"), "CollisionTexture");
+
+            // font Text
             normalFont = content.Load<SpriteFont>("Font/NormalFont");
         }
 
-        private void AddTileSprite(Texture2D texture2D, string name)
-        {
-            tileSprite.Add(name, texture2D);
-        }
-
-        private void AddSprites(Texture2D texture2D, string name)
+        private void AddSprite(Texture2D texture2D, string name)
         {
             sprites.Add(name, texture2D);
         }

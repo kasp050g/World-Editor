@@ -14,7 +14,7 @@ namespace World_Editor
     {
         #region Fields
         private static int sizeOfTile = 100;
-        public TileController tileController = new TileController(sizeOfTile);
+        public EditorController tileController = new EditorController(sizeOfTile);
         public TileActionBarGUI tileActionBarGUI = new TileActionBarGUI();
         #endregion
 
@@ -39,6 +39,7 @@ namespace World_Editor
         public override void Initialize()
         {
             tileActionBarGUI.Initialize();
+            tileActionBarGUI.editorController = tileController;
         }
 
         public override void LoadContent(ContentManager content)

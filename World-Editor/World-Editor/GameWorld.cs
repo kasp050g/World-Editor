@@ -18,9 +18,19 @@ namespace World_Editor
         public static SpriteContainer spriteContainer = new SpriteContainer();
         public static bool isMouseOverUI = false;
         public static Editor editor = new Editor();
+        // UI
         public static List<GameObject> guis = new List<GameObject>();
-        public static List<GameObject> tiles = new List<GameObject>();
+        // Game Objects
         public static List<GameObject> gameObjects = new List<GameObject>();
+
+        // Tile's
+        public static List<GameObject> tiles = new List<GameObject>();
+        // Description's
+        public static List<GameObject> descriptions = new List<GameObject>();
+        // Enemy Spawn's
+        public static List<GameObject> enemySpawns = new List<GameObject>();
+
+
         // Private
         static private List<GameObject> gameObjectsToBeDelete = new List<GameObject>();
         static private List<GameObject> gameObjectsToBeInstatiate = new List<GameObject>();
@@ -95,6 +105,14 @@ namespace World_Editor
                 {
                     tiles.Add(gameObjectsToBeInstatiate[i]);
                 }
+                else if (gameObjectsToBeInstatiate[i] is Description)
+                {
+                    descriptions.Add(gameObjectsToBeInstatiate[i]);
+                }
+                else if (gameObjectsToBeInstatiate[i] is EnemySpawn)
+                {
+                    enemySpawns.Add(gameObjectsToBeInstatiate[i]);
+                }
                 else
                 {
                     gameObjects.Add(gameObjectsToBeInstatiate[i]);
@@ -120,6 +138,14 @@ namespace World_Editor
                 else if (gameObjectsToBeDelete[i] is Tile)
                 {
                     tiles.Remove(gameObjectsToBeDelete[i]);
+                }
+                else if (gameObjectsToBeDelete[i] is Description)
+                {
+                    descriptions.Remove(gameObjectsToBeDelete[i]);
+                }
+                else if (gameObjectsToBeDelete[i] is EnemySpawn)
+                {
+                    enemySpawns.Remove(gameObjectsToBeDelete[i]);
                 }
                 else
                 {
@@ -160,6 +186,14 @@ namespace World_Editor
             {
                 _tile.Update(gameTime);
             }
+            foreach (Description _descriptions in descriptions)
+            {
+                _descriptions.Update(gameTime);
+            }
+            foreach (EnemySpawn _enemySpawns in enemySpawns)
+            {
+                _enemySpawns.Update(gameTime);
+            }
             foreach (GUI _gui in guis)
             {
                 _gui.Update(gameTime);
@@ -192,6 +226,14 @@ namespace World_Editor
             foreach (Tile _tile in tiles)
             {
                 _tile.Draw( spriteBatch);
+            }
+            foreach (Description _descriptions in descriptions)
+            {
+                _descriptions.Draw(spriteBatch);
+            }
+            foreach (EnemySpawn _enemySpawns in enemySpawns)
+            {
+                _enemySpawns.Draw(spriteBatch);
             }
             spriteBatch.End();
 
