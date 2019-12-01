@@ -41,7 +41,7 @@ namespace World_Editor
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, Transform.Position, null, Color, Transform.Rotation, Transform.Origin, Transform.Scale, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(sprite, Transform.Position + Transform.DrawOffSet, null, Color, Transform.Rotation, Transform.Origin, Transform.Scale, SpriteEffects.None, layerDepth);
         }
 
         public override void Update(GameTime gameTime)

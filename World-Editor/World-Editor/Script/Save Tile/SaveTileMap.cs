@@ -74,6 +74,8 @@ namespace World_Editor
                             new XElement("OriginY", x.Transform.Origin.Y, CultureInfo.InvariantCulture),
                             new XElement("PositionX", x.Transform.Position.X, CultureInfo.InvariantCulture),
                             new XElement("PositionY", x.Transform.Position.Y, CultureInfo.InvariantCulture),
+                            new XElement("DrawOffSetX", x.Transform.DrawOffSet.X, CultureInfo.InvariantCulture),
+                            new XElement("DrawOffSetY", x.Transform.DrawOffSet.Y, CultureInfo.InvariantCulture),
                             new XElement("ScaleX", x.Transform.Scale.X.ToString(CultureInfo.InvariantCulture)),
                             new XElement("ScaleY", x.Transform.Scale.Y.ToString(CultureInfo.InvariantCulture))));
             }
@@ -160,6 +162,9 @@ namespace World_Editor
                 XElement _OriginX = x.Element("OriginX");
                 XElement _OriginY = x.Element("OriginY");
 
+                XElement _DrawOffSetX = x.Element("DrawOffSetX");
+                XElement _DrawOffSetY = x.Element("DrawOffSetY");
+
                 XElement _ScaleX = x.Element("ScaleX");
                 XElement _ScaleY = x.Element("ScaleY");
 
@@ -183,6 +188,11 @@ namespace World_Editor
                 newOrigin.X = float.Parse(_OriginX.Value, CultureInfo.InvariantCulture);
                 newOrigin.Y = float.Parse(_OriginY.Value, CultureInfo.InvariantCulture);
                 Description.Transform.Origin = newOrigin;
+
+                Vector2 newDrawOffSet = new Vector2(0, 0);
+                newDrawOffSet.X = float.Parse(_DrawOffSetX.Value, CultureInfo.InvariantCulture);
+                newDrawOffSet.Y = float.Parse(_DrawOffSetY.Value, CultureInfo.InvariantCulture);
+                Description.Transform.DrawOffSet = newDrawOffSet;
 
                 Vector2 newScale = new Vector2(0.0f, 0.0f);
                 newScale.X = float.Parse(_ScaleX.Value, CultureInfo.InvariantCulture);

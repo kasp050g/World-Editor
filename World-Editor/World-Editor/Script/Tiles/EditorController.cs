@@ -15,9 +15,20 @@ namespace World_Editor
     {
         private int sizeOfTile;
         private Texture2D currentSprite;
+        // private Set size and origon Point and Draw Position
+        private int drawPositionX = 50;
+        private int drawPositionY = 70;
+        private float scaleSize = 1f;
+        private OriginPositionEnum currentOriginPositionEnum = OriginPositionEnum.BottomMid;
+
 
         public Texture2D CurrentSprite { get { return currentSprite; } set { currentSprite = value; } }
         public SelectedTileType CurrentSelectedTileType { get; set; }
+        // public Set size and origon Point and Draw Position
+        public int DrawPositionX { get { return drawPositionX; } set { drawPositionX = value; } }
+        public int DrawPositionY { get { return drawPositionY; } set { drawPositionY = value; } }
+        public float ScaleSize { get { return scaleSize; } set { scaleSize = value; } }
+        public OriginPositionEnum CurrentOriginPositionEnum { get { return currentOriginPositionEnum; } set { currentOriginPositionEnum = value; } }
 
         public EditorController(int sizeOfTile)
         {
@@ -117,11 +128,12 @@ namespace World_Editor
                 Description newDescriptions = new Description();
                 newDescriptions.Transform.Position = new Vector2(_position.X, _position.Y);
                 float scaleNumber = (float)((float)sizeOfTile / (float)currentSprite.Height);
-                newDescriptions.Transform.Scale = new Vector2(scaleNumber * 1.5f, scaleNumber * 1.5f);
+                newDescriptions.Transform.Scale = new Vector2(scaleNumber * scaleSize, scaleNumber * scaleSize);
                 newDescriptions.Color = Color.White;
                 newDescriptions.Sprite = currentSprite;
                 newDescriptions.LayerDepth = 0.002f + (((_position.Y/100) + 10000) / 1000000);
-                newDescriptions.OriginEnum = OriginPositionEnum.MidLeft;
+                newDescriptions.Transform.DrawOffSet = new Vector2(drawPositionX, drawPositionY);
+                newDescriptions.OriginEnum = currentOriginPositionEnum;
                 newDescriptions.SetOrigin();
 
 

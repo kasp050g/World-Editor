@@ -15,6 +15,7 @@ namespace World_Editor
         private Vector2 position = new Vector2(0, 0);
         private Vector2 origin = new Vector2(0, 0);
         private Vector2 scale = new Vector2(1, 1);
+        private Vector2 drawOffSet = new Vector2(0, 0);
         private float rotation = 0;
         #endregion
 
@@ -22,6 +23,7 @@ namespace World_Editor
         public Vector2 Position { get { return position; } set { position = value; } }
         public Vector2 Origin { get { return origin; } set { origin = value; } }
         public Vector2 Scale { get { return scale; } set { scale = value; } }
+        public Vector2 DrawOffSet { get { return drawOffSet; } set { drawOffSet = value; } }
         public float Rotation { get { return rotation; } set { rotation = value; } }
         #endregion
     }
